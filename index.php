@@ -1,131 +1,87 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/cover.css">
 
-    <title>Hello, world!</title>
+        <title>Hypothesis-UMG</title>
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head>
+    <body>
 
-    <script type="text/javascript">
-        var data;
-        var options;
-        let chart;
-        var stndDev = 1;
-        var mean = 0;
-        let xMin = -4.1;
-        let xMax = 4.1;
-        let xLeft = -2;
-        let xRight = 2;
+            <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <header class="masthead mb-auto">
+                <div class="inner">
+                <h3 class="masthead-brand">Hypothesis-UMG</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link active" href="#">Home</a>
+                    <a class="nav-link" href="#">About</a>
+                </nav>
+                </div>
+            </header>
+            <input type="hidden" id="situtation_id" name="situation" value="">
 
-        google.charts.load("current", { packages: ["corechart"] });
-        google.charts.setOnLoadCallback(prepareChart);
+            <main role="main" class="inner cover main-1">
+                <h1 class="cover-heading">Selecciona la Situación</h1>
+                <a href="#" class="btn btn-lg btn-secondary btn-s btn-s1" value="1"><img class="img-s img-s1" src="img/s1.png"/></a>
+                <a href="#" class="btn btn-lg btn-secondary btn-s btn-s2" value="2"><img class="img-s img-s2" src="img/s2.png"/></a>
+                <a href="#" class="btn btn-lg btn-secondary btn-s btn-s3" value="3"><img class="img-s img-s3" src="img/s3.png"/></a>
+            </main>
 
-        function prepareChart() {
-            data = new google.visualization.DataTable();
-            setChartOptions();
-            addColumns();
-            addData();
-            drawChart();
-        }
-        function setChartOptions() {
-            options = { legend: "none" };
-            options.hAxis = {};
-            options.hAxis.minorGridlines = {};
-            options.hAxis.minorGridlines.count = 5;
-            return options;
-        }
-        function addColumns() {
-            data.addColumn("number", "X Value");
-            data.addColumn("number", "Y Value");
-            data.addColumn({ type: "boolean", role: "scope" });
-            data.addColumn({ type: "string", role: "style" });
-        }
-        function addData() {
-            data.addRows(createArray(xMin, xMax, xLeft, xRight, mean, stndDev));
-        }
-        function createArray(xMin, xMax, xLeft, xRight, mean, stndDev) {
-            let chartData = new Array([]);
-            let index = 0;
-            for (var i = xMin; i <= xMax; i += 0.1) {
-                chartData[index] = new Array(4);
-                chartData[index][0] = i;
-                chartData[index][1] = jStat.normal.pdf(i, mean, stndDev);
+            <main role="main" class="inner cover main-2" style="display:none;">
+                <h1 class="cover-heading">Llena el formulario</h1>
+                <form class="main-form" action="actions/actions.php">
+                    <div class="form-group">
+                        <label>Numero de datos (n)</label>
+                        <input type="text" class="form-control" placeholder="Numero de datos" name="n">
+                    </div>
+                    <div class="form-group">
+                        <label>Media (Mu)</label>
+                        <input type="text" class="form-control" placeholder="Media Poblacional" name="mu">
+                    </div>
+                    <div class="form-group">
+                        <label>X barra</label>
+                        <input type="text" class="form-control" placeholder="X barra" name="x">
+                    </div>
+                    <div class="form-group">
+                        <label>Desviación estandar</label>
+                        <input type="text" class="form-control" placeholder="Desviación estandar" name="s">
+                    </div>
+                    <div class="form-group">
+                    <input type="radio" name="grados_libertad" value="0.95"> Significativa (95%)<br>
+                    <input type="radio" name="grados_libertad" value="0.99" checked> Altamente Significativa (99%)<br>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generar</button>
+                </form>
+            </main>
+            
+            <main role="main" class="inner cover main-3" style="display:none;">
+                <h1 class="cover-heading">Resultado</h1>
+                <div class="result col-md-12">
+                    <div id="chart_div"></div>
+                </div>
+            </main>
 
-                if (i < xLeft || i > xRight) {
-                chartData[index][2] = false;
-                }
-                chartData[index][3] =
-                "opacity: 1; + color: #105196; + stroke-color: black; ";
-
-                index++;
-            }
-            return chartData;
-        }
-        function drawChart() {
-            chart = new google.visualization.AreaChart(
-            document.getElementById("chart_div")
-        );
-        chart.draw(data, options);
-        }
-    </script>
-  </head>
-  <body>
-    <style>
-        #chart_div{
-            width: 1200px;
-            height: 600px;
-            margin: 5px;
-        }
-
-        .result{
-            /* display:none; */
-        }
-    </style>
-
-    <form class="main-form">
-        <div class="form-group">
-            <label>Media (Mu)</label>
-            <input type="text" class="form-control" placeholder="Media Poblacional">
+            <footer class="mastfoot mt-auto">
+                <div class="inner">
+                <p>Proyecto Final, Estadística II</p>
+                </div>
+            </footer>
         </div>
-        <div class="form-group">
-            <label>X barra</label>
-            <input type="text" class="form-control" placeholder="X barra">
-        </div>
-        <div class="form-group">
-            <label>Numero de datos (n)</label>
-            <input type="text" class="form-control" placeholder="Password">
-        </div>
-        <button type="submit" class="btn btn-primary">Generar</button>
-    </form>
-    
-    <div class="result  col-md-12">
-        <h1>Bell Curve with Google Charts API</h1>
-        <div id="chart_div"></div>
-    </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $( ".main-form" ).submit(function( event ) {
-                event.preventDefault();
-                $('.result').show('slow');
-            });
-        });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/form.js"></script>
   </body>
 </html>
