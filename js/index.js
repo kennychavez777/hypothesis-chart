@@ -19,7 +19,7 @@ function prepareChart() {
     drawChart();
 }
 function setChartOptions() {
-    options = { legend: "none", width: "400", height: "300" };
+    options = { legend: "none"};
     options.hAxis = {};
     options.hAxis.minorGridlines = {};
     options.hAxis.minorGridlines.count = 5;
