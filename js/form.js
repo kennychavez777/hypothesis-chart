@@ -1,4 +1,14 @@
-var table_info = {
+var data;
+var options;
+let chart;
+var stndDev = 4;
+var mean = 0;
+let xMin = -4.1;
+let xMax = 4.1;
+let xLeft = -10;
+let xRight = -2;
+
+var tables = {
     "t": { 
         "0.95": ["6.314","2.920","2.353","2.132","2.015","1.943","1.895","1.860","1.833","1.812","1.796","1.782","1.771","1.761","1.753","1.746","1.740","1.734","1.729","1.725","1.721","1.717","1.714","1.711","1.708","1.706","1.703","1.701","1.699","1.697",],
         "0.975": ["12.706","4.303","3.182","2.776","2.571","2.447","2.365","2.306","2.262","2.228","2.201","2.179","2.160","2.145","2.131","2.120","2.110","2.101","2.093","2.086","2.080","2.074","2.069","2.064","2.060","2.056","2.052","2.048","2.045","2.042",],
@@ -18,6 +28,41 @@ $(document).ready(function(){
 
         var form = $(this);
         var url = form.attr('action');
+        var value = $('input[name=grados_libertad]:checked').val()
+        var situation = $('#situation_id').attr('value');
+        var confidence = 1 - (value);
+        var dc = 0;
+        var n = $('.nd').val();
+
+        if(situation != 2){
+            var confidence = 1 - (value);
+        }
+
+        confidence = confidence.toFixed(2);
+
+        if(n > 30){
+            dc = tables['z'][confidence];
+            // console.log('Z: ',dc)
+        }else{
+            dc = tables['t'][value][n-2];
+            // console.log('T: ', dc)
+        }
+
+        if(situation == 1){
+            xLeft = -10;
+            xRight = dc;
+            mean = 4;
+        }else if(situation == 2){
+            xLeft = dc * -1;
+            xRight = dc;
+            mean = 0;
+        }else if(situation == 3){
+            xRight = 10;
+            xLeft = dc;
+            mean = -4
+        }
+
+        console.log(xRight, xLeft);
 
         $.ajax({
             type: "POST",
@@ -28,16 +73,72 @@ $(document).ready(function(){
                 $('.main-1').hide('slow');
                 $('.main-2').hide('slow');
                 $('.main-3').show('slow');
+
+                myDraw();
             }
         });
     });
 
     $('.btn-s').click(function(){
         var situation = $(this).attr('value');
+        $('#situation_id').attr('value', situation)
 
-        console.log('DATA: ',table_info);
         $('.main-1').hide('slow');
         $('.main-2').show('slow');
 
     });
 });
+
+function myDraw(){
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(prepareChart);
+}
+
+function prepareChart() {
+    data = new google.visualization.DataTable();
+    setChartOptions();
+    addColumns();
+    addData();
+    drawChart();
+}
+function setChartOptions() {
+    options = { legend: "none", "width":"100%"};
+    options.hAxis = {};
+    options.hAxis.minorGridlines = {};
+    options.hAxis.minorGridlines.count = 5;
+    return options;
+}
+function addColumns() {
+    data.addColumn("number", "X Value");
+    data.addColumn("number", "Y Value");
+    data.addColumn({ type: "boolean", role: "scope" });
+    data.addColumn({ type: "string", role: "style" });
+}
+function addData() {
+    data.addRows(createArray(xMin, xMax, xLeft, xRight, mean, stndDev));
+}
+function createArray(xMin, xMax, xLeft, xRight, mean, stndDev) {
+    let chartData = new Array([]);
+    let index = 0;
+    for (var i = xMin; i <= xMax; i += 0.1) {
+        chartData[index] = new Array(4);
+        chartData[index][0] = i;
+        chartData[index][1] = jStat.normal.pdf(i, mean, stndDev);
+
+        if (i < xLeft || i > xRight) {
+        chartData[index][2] = false;
+        }
+        chartData[index][3] =
+        "opacity: 1; + color: #105196; + stroke-color: black; ";
+        // "opacity: 1; + color: #10519600; + stroke-color: black; ";
+
+        index++;
+    }
+    return chartData;
+}
+function drawChart() {
+    chart = new google.visualization.AreaChart(
+        document.getElementById("chart_div")
+    );
+    chart.draw(data, options);
+}

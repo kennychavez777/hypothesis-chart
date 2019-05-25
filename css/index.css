@@ -29,3 +29,16 @@
     width: 100% !important;
     height: 100% !important;
 }
+
+.photo {
+    width: 100%;
+}
+
+.photo1 {
+    width: 80%;
+}
+
+.main {
+    display: flex;
+    padding: 20px;
+}

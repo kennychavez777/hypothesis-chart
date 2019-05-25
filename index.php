@@ -3,7 +3,7 @@
 ?>
 <!doctype html>
 <html lang="en">
-  <head>
+    <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,8 +18,7 @@
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="js/mctad.min.js"></script>
+        <!-- <script type="text/javascript" src="js/index.js"></script> -->
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -31,12 +30,12 @@
                 <div class="inner">
                 <h3 class="masthead-brand">Hypothesis-UMG</h3>
                 <nav class="nav nav-masthead justify-content-center">
-                    <a class="nav-link active" href="#">Home</a>
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link active" href="index.php">Home</a>
+                    <a class="nav-link" href="about.php">About</a>
                 </nav>
                 </div>
             </header>
-            <input type="hidden" id="situtation_id" name="situation" value="">
+            <input type="hidden" id="situation_id" name="situation" value="">
 
             <main role="main" class="inner cover main-1">
                 <h1 class="cover-heading">Selecciona la Situación</h1>
@@ -47,26 +46,26 @@
 
             <main role="main" class="inner cover main-2" style="display:none;">
                 <h1 class="cover-heading">Llena el formulario</h1>
-                <form class="main-form" action="actions/actions.php">
+                <form class="main-form" id="#myForm" action="actions/actions.php">
                     <div class="form-group">
-                        <label>Numero de datos (n)</label>
-                        <input type="text" class="form-control" placeholder="Numero de datos" name="n">
+                        <label>Número de datos (n)</label>
+                        <input type="text" class="form-control nd" placeholder="Numero de datos" name="n">
                     </div>
                     <div class="form-group">
                         <label>Media (Mu)</label>
-                        <input type="text" class="form-control" placeholder="Media Poblacional" name="mu">
+                        <input type="text" class="form-control" placeholder="Media Poblacional" name="mu" value="500">
                     </div>
                     <div class="form-group">
                         <label>X barra</label>
-                        <input type="text" class="form-control" placeholder="X barra" name="x">
+                        <input type="text" class="form-control" placeholder="X barra" name="x" value="480">
                     </div>
                     <div class="form-group">
-                        <label>Desviación estandar</label>
-                        <input type="text" class="form-control" placeholder="Desviación estandar" name="s">
+                        <label>Desviación Estándar</label>
+                        <input type="text" class="form-control" placeholder="Desviación estandar" name="s" value="50">
                     </div>
                     <div class="form-group">
-                    <input type="radio" name="grados_libertad" value="0.95"> Significativa (95%)<br>
-                    <input type="radio" name="grados_libertad" value="0.99" checked> Altamente Significativa (99%)<br>
+                        <input type="radio" class="gl" name="grados_libertad" value="0.95"> Significativa (95%)<br>
+                        <input type="radio" class="gl" name="grados_libertad" value="0.99" checked> Altamente Significativa (99%)<br>
                     </div>
                     <button type="submit" class="btn btn-primary">Generar</button>
                 </form>
