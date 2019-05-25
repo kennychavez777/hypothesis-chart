@@ -42,7 +42,7 @@
                 <div class="col-md-12">
                     <p>
                         <strong>UNIVERSIDAD MARIANO GALVEZ</strong> <br>
-                        <strong>Curso: </strong> Estadística <br>
+                        <strong>Curso: </strong> Estadística II <br>
                         <strong>Ingeniero: </strong>  Hugo Montaya
                     </p>
                 </div>

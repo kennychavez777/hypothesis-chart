@@ -75,6 +75,9 @@
                 <h1 class="cover-heading">Resultado</h1>
                 <div class="result col-md-12">
                     <div id="chart_div"></div>
+                    <div class="col-md-12">
+                        <h4 class="hypothesis"></h4>
+                    </div>
                 </div>
             </main>
 

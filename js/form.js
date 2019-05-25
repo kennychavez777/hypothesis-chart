@@ -35,6 +35,7 @@ $(document).ready(function(){
         var confidence = 1 - (value);
         var dc = 0;
         var n = $('.nd').val();
+        var text = "";
 
         if(situation == 2){
             var confidence = 1 - (value / 2);
@@ -44,10 +45,8 @@ $(document).ready(function(){
 
         if(n > 30){
             dc = tables['z'][confidence];
-            // console.log('Z: ',dc)
         }else{
             dc = tables['t'][value][n-2];
-            // console.log('T: ', dc)
         }
 
         if(situation == 1){
@@ -64,8 +63,6 @@ $(document).ready(function(){
             mean = -4
         }
 
-        console.log(xRight, xLeft);
-
         $.ajax({
             type: "POST",
             url: url,
@@ -77,6 +74,29 @@ $(document).ready(function(){
                 $('.main-3').show('slow');
 
                 myDraw();
+
+                if(situation == 1){
+                    if(dc < data){
+                        text = "Se rechaza H1";
+                    }else{
+                        text = "Se rechaza H0";
+                    }
+                }else if(situation == 2){
+                    if(xLeft < data && xRight > data){
+                        text = "Se rechaza H1";
+                    }else{
+                        text = "Se rechaza H0";
+                    }
+                }else if(situation == 3){
+                    if(dc > data){
+                        text = "Se rechaza H1";
+                    }else{
+                        text = "Se rechaza H0";
+                    }
+                }
+
+                $('.hypothesis').text(text);
+                $('.hypothesis').show('slow');
             }
         });
     });
