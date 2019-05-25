@@ -19,6 +19,8 @@ var tables = {
     "z": {
         "0.01": "-2.33",
         "0.05": "-1.645",
+        "0.495": "0.001",
+        "0.475": "0.006"
     }
 };
 
@@ -34,8 +36,8 @@ $(document).ready(function(){
         var dc = 0;
         var n = $('.nd').val();
 
-        if(situation != 2){
-            var confidence = 1 - (value);
+        if(situation == 2){
+            var confidence = 1 - (value / 2);
         }
 
         confidence = confidence.toFixed(2);
@@ -49,7 +51,7 @@ $(document).ready(function(){
         }
 
         if(situation == 1){
-            xLeft = -10;
+            xLeft = -10 - parseInt(dc);
             xRight = dc;
             mean = 4;
         }else if(situation == 2){
@@ -57,7 +59,7 @@ $(document).ready(function(){
             xRight = dc;
             mean = 0;
         }else if(situation == 3){
-            xRight = 10;
+            xRight = 10 + Math.abs(parseInt(dc));
             xLeft = dc;
             mean = -4
         }
